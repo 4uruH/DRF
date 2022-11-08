@@ -14,8 +14,8 @@ class Command(BaseCommand):
         count = kwargs['count']
         superuser = kwargs['superuser']
         for i in range(count):
-            User.objects.create_user(username=get_random_string(), email='a@a.ru', password='123')
+            User.objects.create_user(username=get_random_string(5), email=f'{get_random_string(5)}@{get_random_string(3)}.ru', password='123')
             if superuser:
-                User.objects.create_superuser(username=get_random_string(), eemail='a@a.ru', password='123')
+                User.objects.create_superuser(username=get_random_string(5), email=f'{get_random_string(5)}@{get_random_string(3)}.ru', password='123')
             else:
-                User.objects.create_user(username=get_random_string(), eemail='a@a.ru', password='123')
+                User.objects.create_user(username=get_random_string(5), email=f'{get_random_string(5)}@{get_random_string(3)}.ru', password='123')

@@ -1,8 +1,13 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins, viewsets
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+
 from .models import RandUser
 from .serializers import UsersModelSerializer
 
 
-class RandUserModelViewSet(ModelViewSet):
+class RandUserModelViewSet(mixins.UpdateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                           viewsets.GenericViewSet):
     queryset = RandUser.objects.all()
     serializer_class = UsersModelSerializer
+    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+

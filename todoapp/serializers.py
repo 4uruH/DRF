@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, StringRelatedField
 from todoapp.models import *
-from users.serializers import UsersModelSerializer
 
 
 class ProjectModelSerializer(HyperlinkedModelSerializer):

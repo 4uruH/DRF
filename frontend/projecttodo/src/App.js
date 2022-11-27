@@ -84,7 +84,7 @@ class App extends React.Component {
                     <Route path='/' element={<UserList items={this.state.users} />} />
                     <Route path='/projects' element={<ProjectList items={this.state.projects} />} />
                     <Route path='/todos' element={<ToDoList items={this.state.todos} />} />
-                    <Route th="/author/:id" element={<UserProjectList items={this.state.projects} />} />
+                    <Route th="/user/:id" element={<UserProjectList items={this.state.projects} />} />
                     <Route element={NotFound404} />
                </Routes>
             </BrowserRouter>

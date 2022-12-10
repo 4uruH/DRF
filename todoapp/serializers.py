@@ -15,4 +15,4 @@ class ToDoModelSerializer(ModelSerializer):
 
     class Meta:
         model = ToDo
-        fields = ('from_project', 'todo_text', 'is_active', 'creat_user')
+        fields = ('id', 'from_project', 'todo_text', 'is_active', 'creat_user')

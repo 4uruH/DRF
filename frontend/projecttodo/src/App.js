@@ -31,13 +31,9 @@ class App extends React.Component {
     axios.get('http://127.0.0.1:8000/api/users')
         .then(response => {
             const users = response.data
-            const projects = response.data
-            const todos = response.data
               this.setState(
                 {
                     'users': users,
-                    'projects': projects,
-                    'todos': todos
                 }
             )
         }).catch(error => console.log(error))
@@ -82,9 +78,9 @@ class App extends React.Component {
                </nav>
                <Routes>
                     <Route path='/' element={<UserList items={this.state.users} />} />
-                    <Route path='/projects' element={<ProjectList items={this.state.projects} />} />
+                    <Route path='/projects' element={<ProjectList items={this.state.projects} users={this.state.users} />} />
                     <Route path='/todos' element={<ToDoList items={this.state.todos} />} />
-                    <Route th="/user/:id" element={<UserProjectList items={this.state.projects} />} />
+                    <Route path="/user/:id" element={<UserProjectList items={this.state.projects} />} />
                     <Route element={NotFound404} />
                </Routes>
             </BrowserRouter>

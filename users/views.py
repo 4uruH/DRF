@@ -6,7 +6,7 @@ from .serializers import UsersModelSerializer
 
 
 class RandUserModelViewSet(mixins.UpdateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                           viewsets.GenericViewSet):
+                           mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = RandUser.objects.all()
     serializer_class = UsersModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]

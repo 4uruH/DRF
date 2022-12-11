@@ -1,9 +1,9 @@
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from todoapp.models import Project, ToDo
-from todoapp.serializers import ProjectModelSerializer, ToDoModelSerializer
+from todoapp.serializers import ProjectModelSerializer, ToDoModelSerializer, ToDoModelSerializerBase
 from .filters import ProjectFilter, ToDoFilter
 
 
@@ -23,6 +23,7 @@ class ProjectModelViewSet(ModelViewSet):
 
 
 class ToDoModelViewSet(ModelViewSet):
+    # permission_classes = [permissions.IsAuthenticated]
     queryset = ToDo.objects.all()
     serializer_class = ToDoModelSerializer
     # pagination_class = ToDoLimitOffsetPagination
@@ -33,5 +34,11 @@ class ToDoModelViewSet(ModelViewSet):
         instance.is_active = False
         instance.save()
         return Response()
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ToDoModelSerializer
+
+        return ToDoModelSerializerBase
 
 

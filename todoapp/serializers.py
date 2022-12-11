@@ -1,4 +1,3 @@
-from rest_framework import permissions
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
 from todoapp.models import *
 from users.serializers import UsersModelSerializer
@@ -12,9 +11,15 @@ class ProjectModelSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class ToDoModelSerializerBase(ModelSerializer):
+
+    class Meta:
+        model = ToDo
+        fields = "__all__"
+
+
 class ToDoModelSerializer(ModelSerializer):
-    permission_classes = [permissions.IsAuthenticated]
-    # user = UsersModelSerializer
+    user = UsersModelSerializer
 
     class Meta:
         model = ToDo

@@ -6,3 +6,9 @@ class UsersModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = RandUser
         fields = ('id', 'user_name', 'first_name', 'last_name', 'email', 'birthday_year')
+
+
+class UsersModelSerializerBase(HyperlinkedModelSerializer):
+    class Meta:
+        model = RandUser
+        fields = '__all__'

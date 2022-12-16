@@ -7,3 +7,6 @@ class RandUser(models.Model):
     last_name = models.CharField(max_length=64, null=True)
     email = models.EmailField(unique=True, null=True)
     birthday_year = models.PositiveIntegerField(null=True)
+    is_stuff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+

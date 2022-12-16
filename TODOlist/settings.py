@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'drf_yasg',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,7 @@ REST_FRAMEWORK = {
         'rest_framework.versioning.AcceptHeaderVersioning',
 
 }
+GRAPHENE = {
+    "SCHEMA": "TODOlist.schema.schema"
+}
+

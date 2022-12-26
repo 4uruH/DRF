@@ -8,6 +8,8 @@ import UserProjectList from "./components/userproject";
 import LoginForm from './components/Auth.js'
 import axios from "axios";
 import Cookies from 'universal-cookie';
+import ProjectForm from "./components/ProjectForm";
+import ToDoForm from "./components/ToDoForm";
 
 
 
@@ -30,6 +32,51 @@ class App extends React.Component {
         'token': ''
         }
     }
+
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers, headers})
+            .then(response => {
+                this.setState({projects: this.state.projects.filter((item)=>item.id !== id)})
+            }).catch(error => console.log(error))
+    }
+
+    createProject(project_name, users) {
+        const headers = this.get_headers()
+        const data = {project_name: project_name, users: users}
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers, headers})
+            .then(response => {
+            let new_project = response.data
+            const users = this.state.users.filter((item) => item.id === new_project.users)[0]
+        new_project.users = users
+        this.setState({projects: [...this.state.projects, new_project]})
+        }).catch(error => console.log(error))
+        }
+
+
+    deleteTodo(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers, headers})
+        .then(response => {
+            this.setState({todos: this.state.todos.filter((item)=>item.id !== id)})
+        }).catch(error => console.log(error))
+    }
+
+    createToDo(from_project, todo_text, create_user) {
+    const headers = this.get_headers()
+    const data = {from_project: from_project, todo_text: todo_text, create_user: create_user}
+    axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers, headers})
+        .then(response => {
+        let new_todo = response.data
+        const from_project = this.state.from_project.filter((item) => item.id === new_todo.from_project)[0]
+    new_todo.from_project = from_project
+        const create_user = this.state.create_user.filter((item) => item.id === new_todo.create_user)[0]
+    new_todo.create_user = create_user
+    this.setState({projects: [...this.state.todos, new_todo]})
+    }).catch(error => console.log(error))
+    }
+
+
     set_token(token) {
          const cookies = new Cookies()
                 cookies.set('token', token)
@@ -107,6 +154,12 @@ class App extends React.Component {
                             <Link to='/projects'>Projects</Link>
                         </li>
                         <li>
+                            <Link to='/projects/create'>Create Project</Link>
+                        </li>
+                        <li>
+                            <Link to='/todos/create'>Create ToDos</Link>
+                        </li>
+                        <li>
                             <Link to='/todos'>ToDos</Link>
                         </li>
                         <li>
@@ -117,8 +170,10 @@ class App extends React.Component {
                </nav>
                <Routes>
                     <Route path='/' element={<UserList items={this.state.users} />} />
-                    <Route path='/projects' element={<ProjectList items={this.state.projects} users={this.state.users} />} />
-                    <Route path='/todos' element={<ToDoList items={this.state.todos} />} />
+                    <Route path='/projects' element={<ProjectList items={this.state.projects} users={this.state.users} deleteProject={(id)=>this.deleteProject(id)}  />} />
+                    <Route path='/projects/create' element={<ProjectForm createProject={(project_name, users) => this.createProject(project_name, users)} />} />} />
+                    <Route path='/todos/create' element={<ToDoForm createToDo={(from_project, todo_text, create_user) => this.createToDo(from_project, todo_text, create_user)} />} />
+                    <Route path='/todos' element={<ToDoList items={this.state.todos} deleteTodo={(id)=>this.deleteTodo(id)} />} />
                     <Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
                     <Route path="/user/:id" element={<UserProjectList items={this.state.projects} />} />
                     <Route element={NotFound404} />
